@@ -29,6 +29,8 @@
 	<br>
 	<hr>
 	<br>
+	Login:
+	<br>
 	<p><a href="register.jsp">Please register</a> for a happy life</p>
 	
 
