@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import dev.jdti.encryption.encrypt.bcrypt.PasswordEncryptionBcryptService;
 import dev.jdti.persistence.entities.Password;
 import dev.jdti.persistence.entities.Person;
 import dev.jdti.persistence.service.PasswordService;
@@ -21,22 +22,40 @@ public class Register extends ActionSupport {
 	private String confirmPassword;
 
 	public String execute() throws Exception {
-
-		Password psswd = new Password();
-		psswd.setPassword(password);
-		psswd.setSalt("irrelevantsalt");
-		this.personBean.setPassword(psswd);
-		LOG.info("password set and saved in person!");
-		// call Service class to store personBean's state in database
 		
-		//TODO: auslagern!
-		PersonService personService = new PersonService();
-		PasswordService passwordService = new PasswordService();
-		passwordService.savePassword(psswd);
-		personService.savePerson(personBean);
+		savePersonToDb();
+		LOG.info("password set and saved in person!");
 
 		return SUCCESS;
 
+	}
+
+	private void savePersonToDb() {
+		
+		PersonService personService = new PersonService();
+		PasswordService passwordService = new PasswordService();
+		
+		String salt = "no_salt";
+		Password password = createPassword(this.password, salt);
+		this.personBean.setPassword(password);
+		
+		passwordService.savePassword(password);
+		personService.savePerson(personBean);
+		
+	}
+	
+	private Password createPassword(String passwd, String slt) {
+		Password psswd = new Password();
+		String passHash = hashPassword(passwd);
+		psswd.setPassword(passHash);
+		psswd.setSalt(slt);
+		return psswd;
+	}
+	
+
+	private String hashPassword(String passwd) {
+		PasswordEncryptionBcryptService pebcs = new PasswordEncryptionBcryptService();
+		return pebcs.getEncryptedPassword(passwd);
 	}
 
 	public void validate() {
