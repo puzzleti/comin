@@ -11,6 +11,9 @@ target/**
 # Code Recommenders
 .recommenders/
 
+# logs
+*.log
+
 # eclipse specific
 .project
 .metadata
