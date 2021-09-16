@@ -57,7 +57,7 @@ public class AppRegulator implements ServletContextListener {
 		PasswordService passwordService = new PasswordService();
 		
 		Password psswd = new Password();
-		psswd.setPassword("thim2!!");
+		psswd.setPassword("admin1!");
 		psswd.setSalt("adm123");
 		passwordService.savePassword(psswd);
 		
