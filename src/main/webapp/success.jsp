@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>welcome</title>
 </head>
 <body>
-
+<h1>welcome to the inner circle</h1>
+<p>you're in</p>
 </body>
 </html>

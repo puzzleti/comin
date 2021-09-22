@@ -31,8 +31,8 @@
 		
 		<action name="login"
 			class="dev.jdti.struts.action.actions.Login" method="execute">
-			<result name="success">/information.jsp</result>
-			<result name="error">/error.jsp</result>
+			<result name="success">/success.jsp</result>
+			<result name="error">/noaccess.jsp</result>
 			<result name="input">/index.jsp</result>
 		</action>
 

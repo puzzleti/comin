@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
 
+import dev.jdti.encryption.encrypt.bcrypt.PasswordEncryptionBcryptService;
 import dev.jdti.persistence.entities.Person;
 import dev.jdti.persistence.service.PersonService;
 
@@ -20,12 +21,31 @@ public class Login extends ActionSupport {
 
 	public String execute() throws Exception {
 		
+		if(isNoValidCredentials()) {
+			return INPUT;
+		}
+		
+		if(!isPersonAuthenticated()){
+			return ERROR;
+		}
+		
+		return SUCCESS;
+	}
+
+	private boolean isPersonAuthenticated() {
+		
 		PersonService personService = new PersonService();
 		Person person = personService.getPersonByEmail(email);
-		LOG.info("Person heisst: {}", person.getLastname());
-		LOG.info("Person psswdHash: {}", person.getPasswordString());
+		
+		return isPersonIdentified(person, password);
+	}
 
-		return SUCCESS;
+	private boolean isPersonIdentified(Person person,String passwordLogin) {
+		if(person == null) {
+			return false;
+		}
+		PasswordEncryptionBcryptService pebs = new PasswordEncryptionBcryptService(); 
+		return pebs.authenticate(passwordLogin, person.getPasswordString());
 	}
 
 	public String getPassword() {
@@ -46,6 +66,10 @@ public class Login extends ActionSupport {
 	
 	public void validate() {
 
+		//TODO: diesen hack ersetzen
+		if(isNoValidCredentials()) {
+			return;
+		}
 		
 		if (this.getEmail().length() == 0) {
 			addFieldError("email", getText("email.required"));
@@ -55,6 +79,13 @@ public class Login extends ActionSupport {
 			addFieldError("password", getText("password.required"));
 		}
 		
+	}
+
+	private boolean isNoValidCredentials() {
+		if(this.email == null || this.password == null) {
+			return true;
+		}
+		return false;
 	}
 	
 	

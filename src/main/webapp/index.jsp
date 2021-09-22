@@ -30,7 +30,8 @@
 	<br>
 	<hr>
 	<br>
-	Login:<br>
+	<h2>Login:</h2>
+	<br>
 	<s:form action="login">
 		<s:textfield name="email" label="Email" />
 		<s:password name="password" label="Password" />

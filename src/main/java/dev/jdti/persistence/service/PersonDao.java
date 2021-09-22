@@ -25,6 +25,7 @@ public class PersonDao extends BaseDAO<Person> {
 	}
 	
 	public Person getPersonByEmail(String email)  {
+		Person person = null;
 		Session session = getEM().unwrap(Session.class);
         session.beginTransaction();
 
@@ -32,7 +33,7 @@ public class PersonDao extends BaseDAO<Person> {
 
         CriteriaQuery<Person> cr = cb.createQuery(Person.class);
         Root<Person> root = cr.from(Person.class);
-        cr.select(root).where(cb.equal(root.get("email"), email));  //here you pass a class field, not a table column (in this example they are called the same)
+        cr.select(root).where(cb.equal(root.get("email"), email));
 
         Query query = session.createQuery(cr);
         query.setMaxResults(1);
@@ -40,7 +41,7 @@ public class PersonDao extends BaseDAO<Person> {
 		List<Person> result = query.getResultList();
         session.close();
 
-        return result.get(0);
+        return result.size()>0 ? result.get(0) : person;
   }
 	
 	
