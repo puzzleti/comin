@@ -33,7 +33,7 @@ public class Person implements Serializable {
 	@Column(name = "age")
 	private int age = 0;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "passwd_id")
 	private Password password;
 
@@ -106,6 +106,10 @@ public class Person implements Serializable {
 
 	public Password getPassword() {
 		return password;
+	}
+	
+	public String getPasswordString() {
+		return password.getPassword();
 	}
 
 	public void setPassword(Password password) {

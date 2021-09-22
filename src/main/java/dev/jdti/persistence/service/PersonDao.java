@@ -1,5 +1,14 @@
 package dev.jdti.persistence.service;
 
+import java.util.List;
+
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.hibernate.Session;
+
 import dev.jdti.persistence.entities.Person;
 
 public class PersonDao extends BaseDAO<Person> {
@@ -14,4 +23,25 @@ public class PersonDao extends BaseDAO<Person> {
 		Person p = this.read(id);
 		this.delete(p);
 	}
+	
+	public Person getPersonByEmail(String email)  {
+		Session session = getEM().unwrap(Session.class);
+        session.beginTransaction();
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+        CriteriaQuery<Person> cr = cb.createQuery(Person.class);
+        Root<Person> root = cr.from(Person.class);
+        cr.select(root).where(cb.equal(root.get("email"), email));  //here you pass a class field, not a table column (in this example they are called the same)
+
+        Query query = session.createQuery(cr);
+        query.setMaxResults(1);
+        @SuppressWarnings("unchecked")
+		List<Person> result = query.getResultList();
+        session.close();
+
+        return result.get(0);
+  }
+	
+	
 }

@@ -1,0 +1,41 @@
+
+public static Person getPersonByEmail(String email)  {
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+
+        CriteriaQuery<Person> cr = cb.createQuery(Person.class);
+        Root<Person> root = cr.from(Person.class);
+        cr.select(root).where(cb.equal(root.get("email"), email));  //here you pass a class field, not a table column (in this example they are called the same)
+
+        Query<Person> query = session.createQuery(cr);
+        query.setMaxResults(1);
+        List<Person> result = query.getResultList();
+        session.close();
+
+        return result.get(0);
+  }
+
+
+public static void main(String[] args)  {
+	  Person person = getPersonByEmail("test@mail.com");
+	  System.out.println(person.getEmail());  //test@mail.com
+	}
+
+---
+
+
+Query query = session.createQuery("from Person p where p.email = :email ");
+query.setParameter("email", email);
+List list = query.list();
+
+
+public List findWithEmail(String email) {
+    return em.createQuery(
+        "SELECT c FROM Person c WHERE c.email LIKE :custEmail")
+        .setParameter("custEmail", email)
+        .getResultList();
+}
+

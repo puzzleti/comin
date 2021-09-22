@@ -1,9 +1,9 @@
 package dev.jdti.persistence.service;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.lang.reflect.ParameterizedType;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -102,6 +102,7 @@ public class BaseDAO<T extends Serializable> implements AutoCloseable {
 		validateClazz();
 		return (T) em.find(clazz, primaryKey);
 	}
+
 
 	/**
 	 * Update entity

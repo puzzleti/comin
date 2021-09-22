@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Basic Web Application - Welcome</title>
+<s:head />
 </head>
 <body>
 	<h1>welcome To the init-project</h1>
@@ -21,15 +22,23 @@
 	
 	<ul>
 	<li>under <em>src/main/resources</em> there are the initial sql scripts</li>
-	<li>in the <em>listener</em> an example db-item will be created</li>
+	<li>in the <em>listener</em> an example db-item is created</li>
 	<li><a href="http://localhost:8082/login.jsp">H2 console</a></li>
-	<li>on every restart of the jetty server a new initial h2 database is created</li>
+	<li>on every (re)start of the jetty server creates a new initial h2 database</li>
 	</ul>
 	
 	<br>
 	<hr>
 	<br>
-	Login:
+	Login:<br>
+	<s:form action="login">
+		<s:textfield name="email" label="Email" />
+		<s:password name="password" label="Password" />
+		<s:submit />
+	</s:form>
+	
+	<br>
+	<hr>
 	<br>
 	<p><a href="register.jsp">Please register</a> for a happy life</p>
 	

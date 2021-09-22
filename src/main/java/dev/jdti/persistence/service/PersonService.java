@@ -36,4 +36,9 @@ public class PersonService {
 		personDao.update(person);
 	}
 	
+	public Person getPersonByEmail(String email) {
+		return personDao.getPersonByEmail(email);
+	}
+	
+	
 }
