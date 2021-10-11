@@ -2,4 +2,4 @@
 struts2 thema beenden (is alt aber wird leider im prjct verwendet)
 psswd hashing
 concourse ci pipeline
-Pattern fuer Hashklassen schreiben (Strategy)
+Pattern fuer Hashvorgang schreiben (Strategy)
